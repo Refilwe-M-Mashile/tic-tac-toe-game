@@ -1,4 +1,3 @@
-import { Value } from "sass";
 import "./Square.scss";
 
 type SquareType = {
