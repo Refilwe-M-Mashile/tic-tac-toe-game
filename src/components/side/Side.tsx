@@ -12,7 +12,9 @@ export const Side = (props: SideViewType) => {
     <div className="side-view">
       <h1>Player {player}</h1>
       <div className="avatar">{avatar}</div>
-      <div className="status">{status}</div>
+      <div className={`status ${status === "You Win!" ? "win" : "lose"}`}>
+        {status}
+      </div>
     </div>
   );
 };

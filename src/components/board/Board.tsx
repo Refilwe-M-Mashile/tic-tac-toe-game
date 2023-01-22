@@ -5,6 +5,7 @@ import "./Board.scss";
 
 export const Board = () => {
   const [avatar, setAvatar] = useState("🔥");
+  const [winner, setWinner] = useState("");
   const [isPlayerOne, setIsPlayerOne] = useState(true);
   const squares = Array(9).fill(null);
   //squares = squares.map((square, i) => <Square value="" position={i} />);
@@ -17,12 +18,51 @@ export const Board = () => {
     setIsPlayerOne(!isPlayerOne);
   };
 
-  const checkWinner = () => {};
+  const checkWinner = () => {
+    let winnerAvatar;
 
-  useEffect(() => setAvatar(isPlayerOne ? "🔥" : "💧"), [isPlayerOne]);
+    //rows
+    winnerAvatar =
+      (cells[0] === cells[1] && cells[0] === cells[2] && cells[0]) ||
+      (cells[3] === cells[4] && cells[3] === cells[5] && cells[3]) ||
+      (cells[6] === cells[7] && cells[6] === cells[8] && cells[6]);
+    if (winnerAvatar) return winnerAvatar;
+
+    //cols
+    winnerAvatar =
+      (cells[0] === cells[3] && cells[0] === cells[6] && cells[0]) ||
+      (cells[1] === cells[4] && cells[1] === cells[7] && cells[1]) ||
+      (cells[2] === cells[5] && cells[2] === cells[8] && cells[2]);
+    if (winnerAvatar) return winnerAvatar;
+
+    //diagonal
+    winnerAvatar =
+      (cells[0] === cells[4] && cells[0] === cells[8] && cells[0]) ||
+      (cells[2] === cells[4] && cells[2] === cells[6] && cells[2]);
+
+    return winnerAvatar ? winnerAvatar : "";
+  };
+
+  useEffect(() => {
+    setWinner(checkWinner());
+    if (winner == "" || !!winner) setAvatar(isPlayerOne ? "🔥" : "💧");
+  }, [isPlayerOne]);
+
+  const checkIfPlayerOne = () => {
+    return winner === "" ? "" : winner === "🔥" ? "You Win!" : "You Lose!";
+  };
+  const checkIfPlayerTwo = () => {
+    return winner === "" ? "" : winner === "💧" ? "You Win!" : "You Lose!";
+  };
   return (
     <div className="game">
-      {isPlayerOne && <Side player="1" avatar={avatar} status="" />}
+      {(isPlayerOne || winner !== "") && (
+        <Side
+          player="1"
+          avatar={winner !== "" ? "🔥" : avatar}
+          status={checkIfPlayerOne()}
+        />
+      )}
       <div className="board">
         <div className="row">
           <Square
@@ -76,7 +116,13 @@ export const Board = () => {
           />
         </div>
       </div>
-      {!isPlayerOne && <Side player="2" avatar={avatar} status="" />}
+      {(!isPlayerOne || winner !== "") && (
+        <Side
+          player="2"
+          avatar={winner !== "" ? "💧" : avatar}
+          status={checkIfPlayerTwo()}
+        />
+      )}
     </div>
   );
 };
