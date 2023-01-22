@@ -1,9 +1,13 @@
-.board {
+.game {
+  display: flex;
+  justify-content: space-around;
+  .board {
     width: 304px;
     height: 304px;
     background-color: rgba(250, 246, 246, 0.06);
     border: 1px solid #09d4ef;
-  .row {
-    display: flex;
+    .row {
+      display: flex;
+    }
   }
 }

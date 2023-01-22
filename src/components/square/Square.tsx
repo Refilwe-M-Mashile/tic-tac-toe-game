@@ -3,6 +3,7 @@ import "./Square.scss";
 type SquareType = {
   value: string;
   position: Number;
+  onClick: () => void;
 };
 
 export const Square = (props: SquareType) => {
